@@ -35,9 +35,10 @@ export function createDialog(init?: Partial<Dialog>) {
 		set({ expanded: true, opened: true })
 		disablePageScroll()
 	}
+
 	const close = () => {
-		set({ expanded: false })
 		enablePageScroll()
+		set({ expanded: false })
 	}
 
 	// modal
