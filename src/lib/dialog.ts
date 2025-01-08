@@ -12,6 +12,7 @@ import { getPrefix } from './internal/utils'
 import { trapFocusOnOpen } from './internal/focus'
 import { setTabIndex } from './internal/set-tab-index'
 import { cancellableClose } from './internal/cancellable-close'
+import { disablePageScroll, enablePageScroll } from '@fluejs/noscroll'
 
 export interface Dialog extends Expandable, Labelable {}
 
@@ -30,8 +31,14 @@ export function createDialog(init?: Partial<Dialog>) {
 	// update state and notify store of changes for reactivity
 	const set = (part: Partial<Dialog>) => store.set((state = { ...state, ...part }))
 
-	const open = () => set({ expanded: true, opened: true })
-	const close = () => set({ expanded: false })
+	const open = () => {
+		set({ expanded: true, opened: true })
+		disablePageScroll()
+	}
+	const close = () => {
+		set({ expanded: false })
+		enablePageScroll()
+	}
 
 	// modal
 	function modal(node: HTMLElement) {
